@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditTextPreference
+        android:key="@string/tbtoken"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        app:useSimpleSummaryProvider="true"
+        android:title="Telegram Bot Token" />
+
+    <EditTextPreference
+        android:key="@string/chatId"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        app:useSimpleSummaryProvider="true"
+        android:title="Telegram Chai Id" />
+
+
+
+</PreferenceScreen>

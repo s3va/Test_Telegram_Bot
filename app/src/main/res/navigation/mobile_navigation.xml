@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="tk.kvakva.testtelegrambot.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_gallery"
+        android:name="tk.kvakva.testtelegrambot.ui.text.TextFragment"
+        android:label="@string/menu_text"
+        tools:layout="@layout/fragment_text" />
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="tk.kvakva.testtelegrambot.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/prefFrag"
+        android:name="tk.kvakva.testtelegrambot.PrefFrag"
+        android:label="PrefFrag" />
+</navigation>
