@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.navGraphViewModels
 import com.google.android.material.textfield.TextInputLayout.END_ICON_CLEAR_TEXT
 import tk.kvakva.testtelegrambot.R
@@ -16,7 +15,7 @@ private const val TAG = "TextFragment"
 
 class TextFragment : Fragment() {
 
-    val textViewModel: TextViewModel by
+    private val textViewModel: TextViewModel by
          navGraphViewModels(R.id.mobile_navigation)
 
     //private lateinit var textViewModel: TextViewModel
