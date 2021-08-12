@@ -12,15 +12,14 @@ import com.google.gson.JsonParser
 import com.google.gson.JsonSyntaxException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
-import retrofit2.http.GET
 import tk.kvakva.testtelegrambot.R
 import retrofit2.Retrofit
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 import java.util.concurrent.TimeUnit
 
 private const val TAG = "TextViewModel"
@@ -63,42 +62,49 @@ class TextViewModel(private val appl: Application) : AndroidViewModel(appl) {
         }
     }
 
-    private fun respgeted(r: Response<ResponseBody>) = if (r.isSuccessful) {
-        val b = r.body()?.string() ?: "qweqwe"
-        val json = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
-        val q = try {
-            json.toJson(JsonParser.parseString(b))
-        } catch (e: JsonSyntaxException) {
-            b
-        }
-        q
-    } else {
-        val b = r.errorBody()?.string() ?: "Error body qweqwe"
-        val json = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
-        val q = try {
-            json.toJson(JsonParser.parseString(b))
-        } catch (e: JsonSyntaxException) {
-            b
-        }
-        q
+}
+
+fun respgeted(r: Response<ResponseBody>) :String = if (r.isSuccessful) {
+    val b = r.body()?.string() ?: "qweqwe"
+    val json = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
+    val q = try {
+        json.toJson(JsonParser.parseString(b))
+    } catch (e: JsonSyntaxException) {
+        b
     }
+    q
+} else {
+    val b = r.errorBody()?.string() ?: "Error body qweqwe"
+    val json = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
+    val q = try {
+        json.toJson(JsonParser.parseString(b))
+    } catch (e: JsonSyntaxException) {
+        b
+    }
+    q
 }
 
 interface TelegramBotApiService {
     @GET("/bot{token}/getMe")
     suspend fun getMe(
         @Path("token") token: String
-    ):
-    // The Coroutine Call Adapter allows us to return a Deferred, a Job with a result
-            Response<ResponseBody>
+    ): Response<ResponseBody>
 
     @GET("/bot{token}/sendMessage")
     suspend fun sendMessageToTlg(
         @Path("token") token: String,
         @Query("chat_id") chat_Id: String,
         @Query("text") textMess: String
-    ):
-            Response<ResponseBody>
+    ): Response<ResponseBody>
+
+    @Multipart
+    @POST("/bot{token}/sendPhoto")
+    suspend fun sendPhoto(
+        @Path("token") token: String,
+        @Query("chat_id") chat_Id: String,
+        @Part part1: MultipartBody.Part,
+        @Part part2: MultipartBody.Part
+    ): Response<ResponseBody>
 
     /*@GET("info/serviceList")
     suspend fun getBeeOptions(@Query("ctn") number: String, @Query("token") token: String):
@@ -117,7 +123,7 @@ val singlRetrofit: Retrofit by lazy {
                 .callTimeout(10, TimeUnit.SECONDS)
                 .addInterceptor(
                     HttpLoggingInterceptor().apply {
-                        level = HttpLoggingInterceptor.Level.BODY
+                        level = HttpLoggingInterceptor.Level.HEADERS
                     }
                 )
                 .build()
