@@ -24,50 +24,8 @@ class SlideshowViewModel(private val appl: Application) : AndroidViewModel(appl)
     }
     val text: LiveData<String> = _text
 
-    private val _uri = MutableLiveData<Uri>().apply {
-        value = Uri.parse(
-            ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
-                    appl.resources.getResourcePackageName(R.mipmap.internetpicture_foreground) + '/' +
-                    appl.resources.getResourceTypeName(R.mipmap.internetpicture_foreground) + '/' +
-                    appl.resources.getResourceEntryName(R.mipmap.internetpicture_foreground)
-        )
-    }
-    val uri: LiveData<Uri> = _uri
-    fun setUri(u: Uri) {
-        _uri.value = u
-    }
-
-    private val ti = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        LocalDateTime.now().toString()
-    } else {
-        Date().toString()
-    }
-
-    fun upload(inputStream: InputStream) {
-        val part1 = MultipartBody.Part.createFormData(
-            "photo", ti, inputStream.readBytes()
-                .toRequestBody(
-                    "image/*".toMediaTypeOrNull()
-
-                )
-        )
-        val part2 = MultipartBody.Part.createFormData(
-            "caption", "Test two ${Date()} \nПроверка связи номер 2!"
-        )
 
 
-        viewModelScope.launch(Dispatchers.IO) {
-            val r = PreferenceManager.getDefaultSharedPreferences(appl)
-                .getString(appl.resources.getString(R.string.tbtoken), "")?.let { _tb_token ->
-                    PreferenceManager.getDefaultSharedPreferences(appl)
-                        .getString(appl.resources.getString(R.string.chatId), "")?.let { _chat_id ->
-                            tk.kvakva.testtelegrambot.ui.text.retrofitService.sendPhoto(
-                                _tb_token, _chat_id, part1, part2
-                            )
-                        }
-                }
-            val jrs = r?.let { respgeted(it) }
-            _text.postValue(jrs)
-        }
-    }
+
+
 }

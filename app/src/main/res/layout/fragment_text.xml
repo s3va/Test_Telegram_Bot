@@ -14,7 +14,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bSendMessage">
+        app:layout_constraintTop_toBottomOf="@+id/imageView3">
 
         <TextView
             android:id="@+id/returnedByTeleText"
@@ -65,4 +65,23 @@
         android:text="get me"
         app:layout_constraintEnd_toStartOf="@+id/bSendMessage"
         app:layout_constraintTop_toBottomOf="@+id/textInLa" />
+
+    <Button
+        android:id="@+id/bSndImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="Send Image"
+        app:layout_constraintEnd_toStartOf="@+id/bGetMe"
+        app:layout_constraintTop_toBottomOf="@+id/textInLa" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bGetMe"
+        app:srcCompat="@mipmap/internetpicture_foreground" />
 </androidx.constraintlayout.widget.ConstraintLayout>

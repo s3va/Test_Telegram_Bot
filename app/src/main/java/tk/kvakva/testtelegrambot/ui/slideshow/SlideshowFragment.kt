@@ -18,10 +18,6 @@ private const val TAG = "SlideshowFragment"
 
 class SlideshowFragment : Fragment() {
 
-    private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let { slideshowViewModel.setUri(it) }
-        //binding.imageView2.setImageURI(uri)
-    }
 
     private lateinit var slideshowViewModel: SlideshowViewModel
     private var _binding: FragmentSlideshowBinding? = null
@@ -45,42 +41,9 @@ class SlideshowFragment : Fragment() {
         slideshowViewModel.text.observe(viewLifecycleOwner, {
             textView.text = it
         })
-        binding.bChooseImage.setOnClickListener {
-            getContent.launch("image/*")
-        }
 
-        binding.bSendImage.setOnClickListener {
-            val inputStream: InputStream? =
-                slideshowViewModel.uri.value?.let { it1 ->
-                    context?.contentResolver?.openInputStream(
-                        it1
-                    )
-                }
-            inputStream?.let { stream ->
-                slideshowViewModel.upload(stream)
-            }
-        }
-        slideshowViewModel.uri.observe(viewLifecycleOwner, {
-            binding.imageView2.setImageURI(it)
-        })
-        binding.imageView2.setOnLongClickListener {
-            Log.i(TAG, "**************** onCreateView: URI ${slideshowViewModel.uri.value}")
-            if(slideshowViewModel.uri.value.toString().contains("android.resource")){
-                return@setOnLongClickListener true
-            }
-            startActivity(Intent(Intent.ACTION_VIEW,slideshowViewModel.uri.value).apply {
-                Log.i(TAG, "**************** onCreateView: URI ${slideshowViewModel.uri.value}")
-           //     setDataAndType(slideshowViewModel.uri.value,"image/*")
-           //     flags = FLAG_GRANT_READ_URI_PERMISSION
-                flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-            })
 
-           // startActivity(Intent(Intent.ACTION_VIEW,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI).apply {
-           //     setDataAndType(slideshowViewModel.uri.value,"image/*")
-           //     flags = FLAG_GRANT_READ_URI_PERMISSION
-           // })
-            true
-        }
+
         return root
     }
 
